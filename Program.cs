@@ -32,14 +32,14 @@ public class Pizza : Item
         MenuNumber = menuNumber;
     }
 
-    private void AddPrice(Topping newTopping)
+    private void AddPrice(Item item)
     {
-        Price += newTopping.Price;
+        Price += item.Price;
     }
 
-    private void SubtractPrice(Topping newTopping)
+    private void SubtractPrice(Item item)
     {
-        Price -= newTopping.Price;
+        Price -= item.Price;
     }
 
     public void AddTopping(Topping newTopping)
