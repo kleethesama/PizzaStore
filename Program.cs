@@ -79,10 +79,65 @@ public class Pizza : Item
     }
 }
 
+public class Store
+{
+    public string Name {get;}
+    public string[] PizzaNames {get; set;}
+    public int[] PizzaPrices {get; set;} // Maybe just keep this one?
+    public Dictionary<string, int> Pizzas {get; set;}
+
+    public Store(string name, string[] pizzaNames, int[] pizzaPrices)
+    {
+        Name = name;
+        PizzaNames = pizzaNames;
+        PizzaPrices = pizzaPrices;
+        Dictionary<string, int> PizzasDict = new Dictionary<string, int>();
+        for (int i = 0; i < pizzaNames.Length; i++)
+        {
+            PizzasDict.Add(pizzaNames[i], pizzaPrices[i]);
+        }
+        Pizzas = PizzasDict;
+    }
+
+    public Pizza PickRandomPizza()
+    {
+        Random randomizer = new Random();
+        int randomNumber = randomizer.Next(0, Pizzas.Keys.Count);
+        string randomPizza = PizzaNames[randomNumber];
+        int priceOfRandom = Pizzas[randomPizza];
+        return new Pizza(randomPizza, priceOfRandom);
+    }
+
+    public void Start()
+    {
+        Pizza[] myPizzas = new Pizza[3];
+        for (int i = 0; i < myPizzas.Length; i++)
+        {
+            myPizzas[i] = PickRandomPizza();
+        }
+        // Customer[] customers;
+        // Order[] orders;
+    }
+}
+
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("test");
+        string[] pizzaNames = {"Margherita", "Vesuvio", "Capricciosa", "Calzone",
+                               "Quattro Stagioni", "Marinara", "Vegetariana", "Italiana",
+                               "Gorgonzola", "Contadina","Napoli","Vichinga",
+                               "Calzone Speciale", "Esotica", "Tonno", "Sardegna",
+                               "Romana", "Sole", "Big Mamma", "La salami",
+                               "Rocco", "Marco", "KoKKode", "Antonello",
+                               "Pasqualino", "Felix", "Bambino"};
+        int[] pizzaPrices   = {80, 92, 98, 98,
+                               98, 97, 98, 93,
+                               97, 92, 95, 98,
+                               98, 98, 97, 97,
+                               98, 98, 99, 98,
+                               99, 99, 99, 99,
+                               98, 95, 65};
+        Store BigMamma = new Store("Big Mamma", pizzaNames, pizzaPrices);
     }
 }
