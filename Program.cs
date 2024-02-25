@@ -20,11 +20,11 @@ public class Topping : Item
 public class Pizza : Item
 {
     public int MenuNumber {get; set;}
-    public Topping[] topping {get; set;}
+    public Topping[] PizzaTopping {get; set;}
 
     public Pizza(string name, int price) : base(name, price)
     {
-        topping = new Topping[1];
+        PizzaTopping = new Topping[1];
     }
 
     public Pizza(string name, int price, int menuNumber) : this(name, price)
@@ -34,22 +34,37 @@ public class Pizza : Item
 
     public void AddTopping(Topping newTopping)
     {
-        Topping[] newToppingArray = new Topping[topping.Length + 1];
-        topping.CopyTo(newToppingArray, 0);
-        newToppingArray[newToppingArray.Length - 1] = newTopping;
-        topping = newToppingArray;
+        int newArrayLength = PizzaTopping.Length + 1;
+        Topping[] newToppingArray = new Topping[newArrayLength];
+        PizzaTopping.CopyTo(newToppingArray, 0);
+        newToppingArray[newArrayLength - 2] = newTopping;
+        PizzaTopping = newToppingArray;
+        Price += newTopping.Price;
     }
 
     public void RemoveTopping(Topping undesiredTopping)
     {
-        //TODO: Get pricing to work together when adding and removing toppings.
-    }
-
-    public void CalculatePrice()
-    {
-        foreach (Topping ToppingItem in topping)
+        int undesiredToppingIndex = Array.IndexOf(PizzaTopping, undesiredTopping);
+        if (undesiredToppingIndex == -1)
         {
-            Price += ToppingItem.Price;
+            // TODO: Make this into a new type of exception.
+            Console.WriteLine("Could not find the PizzaTopping to be removed!");
+        }
+        else
+        {
+            int newArrayLength = PizzaTopping.Length - 1;
+            Topping[] newToppingArray = new Topping[newArrayLength];
+            for (int i = 0; i < newArrayLength; i++)
+            {
+                if (i == undesiredToppingIndex)
+                {
+                    i--;
+                    continue;
+                }
+                newToppingArray[i] = PizzaTopping[i];
+            }
+            PizzaTopping = newToppingArray;
+            Price -= undesiredTopping.Price;
         }
     }
 }
