@@ -1,0 +1,14 @@
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.exe
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.deps.json
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.runtimeconfig.json
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.dll
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.pdb
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.AssemblyInfoInputs.cache
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.AssemblyInfo.cs
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.csproj.CoreCompileInputs.cache
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.dll
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\refint\PizzaStore.dll
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.pdb
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.genruntimeconfig.cache
+c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\ref\PizzaStore.dll
