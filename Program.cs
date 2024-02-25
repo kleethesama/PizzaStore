@@ -32,16 +32,25 @@ public class Pizza : Item
         MenuNumber = menuNumber;
     }
 
-    public void AddTopping(Topping topping)
+    public void AddTopping(Topping newTopping)
     {
-        Topping[] newToppingArray = new Topping[this.topping.Length + 1];
-        this.topping.CopyTo(newToppingArray, 0);
-        newToppingArray[newToppingArray.Length - 1] = topping;
-        this.topping = newToppingArray;
+        Topping[] newToppingArray = new Topping[topping.Length + 1];
+        topping.CopyTo(newToppingArray, 0);
+        newToppingArray[newToppingArray.Length - 1] = newTopping;
+        topping = newToppingArray;
+    }
+
+    public void RemoveTopping(Topping undesiredTopping)
+    {
+        //TODO: Get pricing to work together when adding and removing toppings.
     }
 
     public void CalculatePrice()
     {
+        foreach (Topping ToppingItem in topping)
+        {
+            Price += ToppingItem.Price;
+        }
     }
 }
 
