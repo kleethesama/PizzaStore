@@ -32,6 +32,16 @@ public class Pizza : Item
         MenuNumber = menuNumber;
     }
 
+    private void AddPrice(Topping newTopping)
+    {
+        Price += newTopping.Price;
+    }
+
+    private void SubtractPrice(Topping newTopping)
+    {
+        Price -= newTopping.Price;
+    }
+
     public void AddTopping(Topping newTopping)
     {
         int newArrayLength = PizzaTopping.Length + 1;
@@ -39,7 +49,7 @@ public class Pizza : Item
         PizzaTopping.CopyTo(newToppingArray, 0);
         newToppingArray[newArrayLength - 2] = newTopping;
         PizzaTopping = newToppingArray;
-        Price += newTopping.Price;
+        AddPrice(newTopping);
     }
 
     public void RemoveTopping(Topping undesiredTopping)
@@ -64,7 +74,7 @@ public class Pizza : Item
                 newToppingArray[i] = PizzaTopping[i];
             }
             PizzaTopping = newToppingArray;
-            Price -= undesiredTopping.Price;
+            SubtractPrice(undesiredTopping);
         }
     }
 }
