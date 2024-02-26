@@ -79,10 +79,76 @@ public class Pizza : Item
     }
 }
 
+public class Store
+{
+    public string Name {get; set;}
+    public Dictionary<string, int> PizzasAndPrices {get; set;}
+
+    public Store(string name, string[] pizzaNames, int[] pizzaPrices)
+    {
+        Name = name;
+        Dictionary<string, int> pizzasDict = new Dictionary<string, int>();
+        for (int i = 0; i < pizzaNames.Length; i++)
+        {
+            pizzasDict.Add(pizzaNames[i], pizzaPrices[i]);
+        }
+        PizzasAndPrices = pizzasDict;
+    }
+
+    public string[] GetAllPizzaNames()
+    {
+        int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
+        string[] pizzaNames = new string[pizzaTypeAmount];
+        PizzasAndPrices.Keys.CopyTo(pizzaNames, 0);
+        return pizzaNames;
+    }
+
+    public Pizza PickRandomPizza()
+    {
+        string[] pizzaNames = GetAllPizzaNames();
+        int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
+        Random randomizer = new Random();
+        int randomNumber = randomizer.Next(0, pizzaTypeAmount);
+        string randomPizza = pizzaNames[randomNumber];
+        int priceOfRandom = PizzasAndPrices[randomPizza];
+        return new Pizza(randomPizza, priceOfRandom, randomNumber + 1);
+    }
+
+    public void Start()
+    {
+        Pizza[] myPizzas = new Pizza[3];
+        for (int i = 0; i < myPizzas.Length; i++)
+        {
+            myPizzas[i] = PickRandomPizza();
+        }
+        Console.WriteLine($"This pizza is called {myPizzas[0].Name}, it has the menu number #{myPizzas[0].MenuNumber} and its price is {myPizzas[0].Price} DKK.");
+        Topping myTopping = new Topping("cheese", 10);
+        Console.WriteLine($"The pizza needs extra {myTopping.Name} and it'll cost an additional {myTopping.Price} DKK.");
+        myPizzas[0].AddTopping(myTopping);
+        // Customer[] customers;
+        // Order[] orders;
+    }
+}
+
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("test");
+        string[] pizzaNames = {"Margherita", "Vesuvio", "Capricciosa", "Calzone",
+                               "Quattro Stagioni", "Marinara", "Vegetariana", "Italiana",
+                               "Gorgonzola", "Contadina","Napoli","Vichinga",
+                               "Calzone Speciale", "Esotica", "Tonno", "Sardegna",
+                               "Romana", "Sole", "Big Mamma", "La salami",
+                               "Rocco", "Marco", "KoKKode", "Antonello",
+                               "Pasqualino", "Felix", "Bambino"};
+        int[] pizzaPrices   = {80, 92, 98, 98,
+                               98, 97, 98, 93,
+                               97, 92, 95, 98,
+                               98, 98, 97, 97,
+                               98, 98, 99, 98,
+                               99, 99, 99, 99,
+                               98, 95, 65};
+        Store BigMamma = new Store("Big Mamma", pizzaNames, pizzaPrices);
+        BigMamma.Start();
     }
 }
