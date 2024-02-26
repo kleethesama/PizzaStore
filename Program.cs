@@ -158,6 +158,14 @@ public class Store
         return new Pizza(randomPizza, priceOfRandom, randomNumber + 1);
     }
 
+    private void TestPizzas(Pizza[] myPizzas)
+    {
+        foreach (Pizza pizza in myPizzas)
+        {
+            Console.WriteLine(pizza.ToString());
+        }
+    }
+
     public void Start()
     {
         Pizza[] myPizzas = new Pizza[3];
@@ -167,10 +175,10 @@ public class Store
         }
         Topping myTopping = new Topping("cheese", 10);
         myPizzas[0].AddTopping(myTopping);
-        foreach (Pizza pizza in myPizzas)
-        {
-            Console.WriteLine(pizza.ToString());
-        }
+        TestPizzas(myPizzas);
+        myPizzas[0].RemoveTopping(myTopping);
+        Console.WriteLine("\nBEFORE AND AFTER\n");
+        TestPizzas(myPizzas);
         // Customer[] customers;
         // Order[] orders;
     }
