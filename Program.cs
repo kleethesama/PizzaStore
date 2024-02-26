@@ -54,7 +54,7 @@ public class Pizza : Item
 
     public Pizza(string name, int price) : base(name, price)
     {
-        PizzaTopping = new Topping[1];
+        PizzaTopping = new Topping[0];
     }
 
     public Pizza(string name, int price, int menuNumber) : this(name, price)
@@ -67,7 +67,7 @@ public class Pizza : Item
         int newArrayLength = PizzaTopping.Length + 1;
         Topping[] newToppingArray = new Topping[newArrayLength];
         PizzaTopping.CopyTo(newToppingArray, 0);
-        newToppingArray[newArrayLength - 2] = newTopping;
+        newToppingArray[newArrayLength - 1] = newTopping;
         PizzaTopping = newToppingArray;
         AddPrice(newTopping);
     }
@@ -100,7 +100,26 @@ public class Pizza : Item
 
     public override string ToString()
     {
-        return $"This pizza is called {Name}, it has the menu number #{MenuNumber} and its price is {Price} DKK.";
+        string[] pizzaInfo = {$"This pizza is called {Name}, ",
+                              $"it has the menu number #{MenuNumber} ",
+                              $"and its price is {Price} DKK."};
+        string finalString = "";
+        foreach (string info in pizzaInfo)
+        {
+            finalString += info;
+        }
+        if (PizzaTopping.Length == 0)
+        {
+            finalString += $"\nIt has no extra topping.";
+        }
+        else
+        {
+            foreach (Topping topping in PizzaTopping)
+            {
+                finalString += $"\nIt has extra {topping.Name} as topping.";
+            }
+        }
+        return finalString;
     }
 }
 
@@ -146,10 +165,12 @@ public class Store
         {
             myPizzas[i] = PickRandomPizza();
         }
-        Console.WriteLine($"This pizza is called {myPizzas[0].Name}, it has the menu number #{myPizzas[0].MenuNumber} and its price is {myPizzas[0].Price} DKK.");
         Topping myTopping = new Topping("cheese", 10);
-        Console.WriteLine($"The pizza needs extra {myTopping.Name} and it'll cost an additional {myTopping.Price} DKK.");
         myPizzas[0].AddTopping(myTopping);
+        foreach (Pizza pizza in myPizzas)
+        {
+            Console.WriteLine(pizza.ToString());
+        }
         // Customer[] customers;
         // Order[] orders;
     }
