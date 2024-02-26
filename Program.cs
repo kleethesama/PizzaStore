@@ -8,12 +8,42 @@
         Name = name;
         Price = price;
     }
+
+    protected void AddPrice(Item item)
+    {
+        Price += item.Price;
+    }
+
+    protected void AddPrice(int price)
+    {
+        Price += price;
+    }
+
+    protected void SubtractPrice(Item item)
+    {
+        Price -= item.Price;
+    }
+
+    protected void SubtractPrice(int price)
+    {
+        Price -= price;
+    }
+
+    public override string ToString()
+    {
+        return $"This item's name is {Name} and its price is {Price}.";
+    }
 }
 
 public class Topping : Item
 {
     public Topping(string name, int price) : base(name, price)
     {
+    }
+
+    public override string ToString()
+    {
+        return $"This topping is {Name} and its additional cost is {Price}.";
     }
 }
 
@@ -30,16 +60,6 @@ public class Pizza : Item
     public Pizza(string name, int price, int menuNumber) : this(name, price)
     {
         MenuNumber = menuNumber;
-    }
-
-    private void AddPrice(Item item)
-    {
-        Price += item.Price;
-    }
-
-    private void SubtractPrice(Item item)
-    {
-        Price -= item.Price;
     }
 
     public void AddTopping(Topping newTopping)
@@ -76,6 +96,62 @@ public class Pizza : Item
             PizzaTopping = newToppingArray;
             SubtractPrice(undesiredTopping);
         }
+    }
+
+    public override string ToString()
+    {
+        return $"This pizza is called {Name}, it has the menu number #{MenuNumber} and its price is {Price} DKK.";
+    }
+}
+
+public class Store
+{
+    public string Name {get; set;}
+    public Dictionary<string, int> PizzasAndPrices {get; set;}
+
+    public Store(string name, string[] pizzaNames, int[] pizzaPrices)
+    {
+        Name = name;
+        Dictionary<string, int> pizzasDict = new Dictionary<string, int>();
+        for (int i = 0; i < pizzaNames.Length; i++)
+        {
+            pizzasDict.Add(pizzaNames[i], pizzaPrices[i]);
+        }
+        PizzasAndPrices = pizzasDict;
+    }
+
+    public string[] GetAllPizzaNames()
+    {
+        int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
+        string[] pizzaNames = new string[pizzaTypeAmount];
+        PizzasAndPrices.Keys.CopyTo(pizzaNames, 0);
+        return pizzaNames;
+    }
+
+    public Pizza PickRandomPizza()
+    {
+        string[] pizzaNames = GetAllPizzaNames();
+        int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
+        Random randomizer = new Random();
+        int randomNumber = randomizer.Next(0, pizzaTypeAmount);
+        string randomPizza = pizzaNames[randomNumber];
+        int priceOfRandom = PizzasAndPrices[randomPizza];
+        return new Pizza(randomPizza, priceOfRandom, randomNumber + 1);
+    }
+
+    public void Start()
+    {
+        Pizza[] myPizzas = new Pizza[3];
+        for (int i = 0; i < myPizzas.Length; i++)
+        {
+            myPizzas[i] = PickRandomPizza();
+        }
+        Console.WriteLine($"This pizza is called {myPizzas[0].Name}, it has the menu number #{myPizzas[0].MenuNumber} and its price is {myPizzas[0].Price} DKK.");
+        Topping myTopping = new Topping("cheese", 10);
+        Console.WriteLine($"The pizza needs extra {myTopping.Name} and it'll cost an additional {myTopping.Price} DKK.");
+        myPizzas[0].AddTopping(myTopping);
+        // Customer[] customers;
+        // Order[] orders;
     }
 }
 
