@@ -95,12 +95,18 @@ public class Store
         PizzasAndPrices = pizzasDict;
     }
 
-    public Pizza PickRandomPizza()
+    public string[] GetAllPizzaNames()
     {
         int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
         string[] pizzaNames = new string[pizzaTypeAmount];
         PizzasAndPrices.Keys.CopyTo(pizzaNames, 0);
+        return pizzaNames;
+    }
 
+    public Pizza PickRandomPizza()
+    {
+        string[] pizzaNames = GetAllPizzaNames();
+        int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
         Random randomizer = new Random();
         int randomNumber = randomizer.Next(0, pizzaTypeAmount);
         string randomPizza = pizzaNames[randomNumber];
@@ -114,10 +120,11 @@ public class Store
         for (int i = 0; i < myPizzas.Length; i++)
         {
             myPizzas[i] = PickRandomPizza();
-            Console.WriteLine($"This pizza is called {myPizzas[i].Name}, it has the menu number #{myPizzas[i].MenuNumber} and its price is {myPizzas[i].Price} DKK.");
         }
-        Topping myTopping = new Topping("ost", 10);
-        Console.WriteLine($"The pizza needs extra {myTopping.Name} as topping and it'll cost an additional {myTopping.Name} DKK.");
+        Console.WriteLine($"This pizza is called {myPizzas[0].Name}, it has the menu number #{myPizzas[0].MenuNumber} and its price is {myPizzas[0].Price} DKK.");
+        Topping myTopping = new Topping("cheese", 10);
+        Console.WriteLine($"The pizza needs extra {myTopping.Name} and it'll cost an additional {myTopping.Price} DKK.");
+        myPizzas[0].AddTopping(myTopping);
         // Customer[] customers;
         // Order[] orders;
     }
