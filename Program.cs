@@ -8,12 +8,42 @@
         Name = name;
         Price = price;
     }
+
+    protected void AddPrice(Item item)
+    {
+        Price += item.Price;
+    }
+
+    protected void AddPrice(int price)
+    {
+        Price += price;
+    }
+
+    protected void SubtractPrice(Item item)
+    {
+        Price -= item.Price;
+    }
+
+    protected void SubtractPrice(int price)
+    {
+        Price -= price;
+    }
+
+    public override string ToString()
+    {
+        return $"This item's name is {Name} and its price is {Price}.";
+    }
 }
 
 public class Topping : Item
 {
     public Topping(string name, int price) : base(name, price)
     {
+    }
+
+    public override string ToString()
+    {
+        return $"This topping is {Name} and its additional cost is {Price}.";
     }
 }
 
@@ -30,16 +60,6 @@ public class Pizza : Item
     public Pizza(string name, int price, int menuNumber) : this(name, price)
     {
         MenuNumber = menuNumber;
-    }
-
-    private void AddPrice(Item item)
-    {
-        Price += item.Price;
-    }
-
-    private void SubtractPrice(Item item)
-    {
-        Price -= item.Price;
     }
 
     public void AddTopping(Topping newTopping)
@@ -76,6 +96,11 @@ public class Pizza : Item
             PizzaTopping = newToppingArray;
             SubtractPrice(undesiredTopping);
         }
+    }
+
+    public override string ToString()
+    {
+        return $"This pizza is called {Name}, it has the menu number #{MenuNumber} and its price is {Price} DKK.";
     }
 }
 
