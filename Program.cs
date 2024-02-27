@@ -74,28 +74,26 @@ public class Pizza : Item
 
     public void RemoveTopping(Topping undesiredTopping)
     {
-        int undesiredToppingIndex = Array.IndexOf(PizzaTopping, undesiredTopping);
-        if (undesiredToppingIndex == -1)
+        int newArrayLength = PizzaTopping.Length - 1;
+        bool skip = false;
+        Topping[] newToppingArray = new Topping[newArrayLength];
+        for (int i = 0; i < newArrayLength; i++)
         {
-            // TODO: Make this into a new type of exception.
-            Console.WriteLine("Could not find the PizzaTopping to be removed!");
-        }
-        else
-        {
-            int newArrayLength = PizzaTopping.Length - 1;
-            Topping[] newToppingArray = new Topping[newArrayLength];
-            for (int i = 0; i < newArrayLength; i++)
+            if (PizzaTopping[i] == undesiredTopping)
             {
-                if (i == undesiredToppingIndex)
-                {
-                    i--;
-                    continue;
-                }
+                skip = true;
+            }
+            if (skip)
+            {
+                newToppingArray[i] = PizzaTopping[i + 1];
+            }
+            else
+            {
                 newToppingArray[i] = PizzaTopping[i];
             }
-            PizzaTopping = newToppingArray;
-            SubtractPrice(undesiredTopping);
         }
+        PizzaTopping = newToppingArray;
+        SubtractPrice(undesiredTopping);
     }
 
     public override string ToString()
@@ -179,12 +177,17 @@ public class Store
     public void Start()
     {
         Pizza[] myPizzas = GeneratePizzas(3);
-        Topping myTopping = new Topping("cheese", 10);
-        myPizzas[0].AddTopping(myTopping);
+        string[] toppingNames = {"cheese", "pepperoni", "pineapple"};
+        foreach (string toppingName in toppingNames)
+        {
+            myPizzas[0].AddTopping(new Topping(toppingName, 10));
+        }
         TestPizzas(myPizzas);
-        myPizzas[0].RemoveTopping(myTopping);
+        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
+        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
         Console.WriteLine("\nREMOVING TOPPING FROM FIRST PIZZA (BEFORE AND AFTER)\n");
         TestPizzas(myPizzas);
+        // TODO: Add more topping and see what happens when you try to remove a specific one.
         // Customer[] customers;
         // Order[] orders;
     }
