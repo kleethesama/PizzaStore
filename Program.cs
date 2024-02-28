@@ -121,6 +121,8 @@ public class Pizza : Item
     }
 }
 
+// Create a new class, OrderManager for creating orders (from the basket?).
+
 public class Store
 {
     public string Name {get; set;}
@@ -183,11 +185,12 @@ public class Store
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
         TestPizzas(myPizzas);
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}\n");
         myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}\n");
         myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
-        Console.WriteLine("\nREMOVING TOPPING FROM FIRST PIZZA (BEFORE AND AFTER)\n");
+        Console.WriteLine("\n(BEFORE AND AFTER)\n");
         TestPizzas(myPizzas);
-        // TODO: Add more topping and see what happens when you try to remove a specific one.
         // Customer[] customers;
         // Order[] orders;
     }
