@@ -121,7 +121,54 @@ public class Pizza : Item
     }
 }
 
-// Create a new class, OrderManager for creating orders (from the basket?).
+// public class Customer
+// {
+//     public string CustomerName {get; set;}
+//     public Basket basket {get; set;}
+// }
+
+public class Basket
+{
+    public Item[] Items {get; set;}
+    public int TotalPrice {get; set;}
+    public int ItemQuantity {get; set;}
+
+    public Basket()
+    {
+        Items = new Item[0];
+        TotalPrice = 0;
+        ItemQuantity = 0;
+    }
+
+    public void AddItem(Item item)
+    {
+        Item[] newItems = new Item[Items.Length + 1];
+        Items.CopyTo(newItems, 0);
+        newItems[newItems.Length - 1] = item;
+    }
+
+    public void RemoveItem(Item item)
+    {
+        int newArrayLength = Items.Length - 1;
+        bool skip = false;
+        Item[] newItemArray = new Topping[newArrayLength];
+        for (int i = 0; i < newArrayLength; i++)
+        {
+            if (Items[i] == item)
+            {
+                skip = true;
+            }
+            if (skip)
+            {
+                newItemArray[i] = Items[i + 1];
+            }
+            else
+            {
+                newItemArray[i] = Items[i];
+            }
+        }
+    }
+}
 
 public class Store
 {
