@@ -75,15 +75,10 @@ public class Pizza : Item
     public void RemoveTopping(Topping undesiredTopping)
     {
         int newArrayLength = PizzaTopping.Length - 1;
-        bool skip = false;
         Topping[] newToppingArray = new Topping[newArrayLength];
         for (int i = 0; i < newArrayLength; i++)
         {
-            if (PizzaTopping[i] == undesiredTopping)
-            {
-                skip = true;
-            }
-            if (skip)
+            if (i >= Array.IndexOf(PizzaTopping, undesiredTopping))
             {
                 newToppingArray[i] = PizzaTopping[i + 1];
             }
@@ -150,21 +145,16 @@ public class Basket
     public void RemoveItem(Item item)
     {
         int newArrayLength = Items.Length - 1;
-        bool skip = false;
         Item[] newItemArray = new Topping[newArrayLength];
         for (int i = 0; i < newArrayLength; i++)
         {
-            if (Items[i] == item)
+            if (i >= Array.IndexOf(Items, undesiredTopping))
             {
-                skip = true;
-            }
-            if (skip)
-            {
-                newItemArray[i] = Items[i + 1];
+                newToppingArray[i] = Items[i + 1];
             }
             else
             {
-                newItemArray[i] = Items[i];
+                newToppingArray[i] = Items[i];
             }
         }
     }
@@ -232,8 +222,8 @@ public class Store
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
         TestPizzas(myPizzas);
-        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}\n");
-        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[0]}\n");
+        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[0]);
         Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}\n");
         myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
         Console.WriteLine("\n(BEFORE AND AFTER)\n");
