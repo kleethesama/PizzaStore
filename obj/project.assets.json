@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\fck\\.nuget\\packages\\": {}
+    "C:\\Users\\Frederik\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\fck\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
+      "projectUniqueName": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
       "projectName": "PizzaStore",
-      "projectPath": "c:\\Users\\fck\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
-      "packagesPath": "C:\\Users\\fck\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\fck\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\obj\\",
+      "projectPath": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
+      "packagesPath": "C:\\Users\\Frederik\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\fck\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Frederik\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"

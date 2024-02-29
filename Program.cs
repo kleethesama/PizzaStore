@@ -54,7 +54,7 @@ public class Pizza : Item
 
     public Pizza(string name, int price) : base(name, price)
     {
-        PizzaTopping = new Topping[0];
+        PizzaTopping = Array.Empty<Topping>();
     }
 
     public Pizza(string name, int price, int menuNumber) : this(name, price)
@@ -67,7 +67,7 @@ public class Pizza : Item
         int newArrayLength = PizzaTopping.Length + 1;
         Topping[] newToppingArray = new Topping[newArrayLength];
         PizzaTopping.CopyTo(newToppingArray, 0);
-        newToppingArray[newArrayLength - 1] = newTopping;
+        newToppingArray[^1] = newTopping;
         PizzaTopping = newToppingArray;
         AddPrice(newTopping);
     }
@@ -76,19 +76,27 @@ public class Pizza : Item
     {
         int newArrayLength = PizzaTopping.Length - 1;
         Topping[] newToppingArray = new Topping[newArrayLength];
-        for (int i = 0; i < newArrayLength; i++)
+        int toppingIndexLocation = Array.IndexOf(PizzaTopping, undesiredTopping);
+        if (toppingIndexLocation == -1)
         {
-            if (i >= Array.IndexOf(PizzaTopping, undesiredTopping))
-            {
-                newToppingArray[i] = PizzaTopping[i + 1];
-            }
-            else
-            {
-                newToppingArray[i] = PizzaTopping[i];
-            }
+            throw new Exception("The undesired topping was not found on the pizza.");
         }
-        PizzaTopping = newToppingArray;
-        SubtractPrice(undesiredTopping);
+        else
+        {
+            for (int i = 0; i < newArrayLength; i++)
+            {
+                if (i >= toppingIndexLocation)
+                {
+                    newToppingArray[i] = PizzaTopping[i + 1];
+                }
+                else
+                {
+                    newToppingArray[i] = PizzaTopping[i];
+                }
+            }
+            PizzaTopping = newToppingArray;
+            SubtractPrice(undesiredTopping);
+        }
     }
 
     public override string ToString()
@@ -130,32 +138,66 @@ public class Basket
 
     public Basket()
     {
-        Items = new Item[0];
+        Items = Array.Empty<Item>();
         TotalPrice = 0;
         ItemQuantity = 0;
+    }
+
+    public Basket(Item[] items)
+    {
+        Items = items;
+        TotalPrice = 0;
+        ItemQuantity = Items.Length;
+        CalculateTotalPrice();
+    }
+
+    public void CalculateTotalPrice()
+    {
+        if (Items.Length == 0)
+        {
+            throw new Exception("Can't calculate total price since this basket is empty.");
+        }
+        else
+        {
+            int newTotalPrice = 0;
+            foreach (Item item in Items)
+            {
+                newTotalPrice += item.Price;
+            }
+            TotalPrice = newTotalPrice;
+        }
     }
 
     public void AddItem(Item item)
     {
         Item[] newItems = new Item[Items.Length + 1];
         Items.CopyTo(newItems, 0);
-        newItems[newItems.Length - 1] = item;
+        newItems[^1] = item;
     }
 
     public void RemoveItem(Item item)
     {
         int newArrayLength = Items.Length - 1;
-        Item[] newItemArray = new Topping[newArrayLength];
-        for (int i = 0; i < newArrayLength; i++)
+        Item[] newItemArray = new Item[newArrayLength];
+        int itemIndexLocation = Array.IndexOf(Items, item);
+        if (itemIndexLocation == -1)
         {
-            if (i >= Array.IndexOf(Items, undesiredTopping))
+            throw new Exception("The undesired item was not found in the basket.");
+        }
+        else
+        {
+            for (int i = 0; i < newArrayLength; i++)
             {
-                newToppingArray[i] = Items[i + 1];
+                if (i >= itemIndexLocation)
+                {
+                    newItemArray[i] = Items[i + 1];
+                }
+                else
+                {
+                    newItemArray[i] = Items[i];
+                }
             }
-            else
-            {
-                newToppingArray[i] = Items[i];
-            }
+            Items = newItemArray;
         }
     }
 }
@@ -222,9 +264,9 @@ public class Store
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
         TestPizzas(myPizzas);
-        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[0]}\n");
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[0]}");
         myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[0]);
-        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}\n");
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}");
         myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
         Console.WriteLine("\n(BEFORE AND AFTER)\n");
         TestPizzas(myPizzas);
