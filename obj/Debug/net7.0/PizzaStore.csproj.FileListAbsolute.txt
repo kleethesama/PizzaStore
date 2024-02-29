@@ -12,3 +12,17 @@ c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\
 c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.pdb
 c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.genruntimeconfig.cache
 c:\Users\Frederik\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\ref\PizzaStore.dll
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.exe
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.deps.json
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.runtimeconfig.json
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.dll
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\bin\Debug\net7.0\PizzaStore.pdb
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.AssemblyInfoInputs.cache
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.AssemblyInfo.cs
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.csproj.CoreCompileInputs.cache
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.dll
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\refint\PizzaStore.dll
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.pdb
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\PizzaStore.genruntimeconfig.cache
+c:\Users\fck\OneDrive - Zealand\Zealand - datamatiker\UML 1\PizzaStore\obj\Debug\net7.0\ref\PizzaStore.dll

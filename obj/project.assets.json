@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
+      "projectUniqueName": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
       "projectName": "PizzaStore",
-      "projectPath": "C:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
+      "projectPath": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\PizzaStore.csproj",
       "packagesPath": "C:\\Users\\Frederik\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\obj\\",
+      "outputPath": "c:\\Users\\Frederik\\OneDrive - Zealand\\Zealand - datamatiker\\UML 1\\PizzaStore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Frederik\\AppData\\Roaming\\NuGet\\NuGet.Config"

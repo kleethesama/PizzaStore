@@ -54,7 +54,7 @@ public class Pizza : Item
 
     public Pizza(string name, int price) : base(name, price)
     {
-        PizzaTopping = new Topping[1];
+        PizzaTopping = Array.Empty<Topping>();
     }
 
     public Pizza(string name, int price, int menuNumber) : this(name, price)
@@ -67,31 +67,32 @@ public class Pizza : Item
         int newArrayLength = PizzaTopping.Length + 1;
         Topping[] newToppingArray = new Topping[newArrayLength];
         PizzaTopping.CopyTo(newToppingArray, 0);
-        newToppingArray[newArrayLength - 2] = newTopping;
+        newToppingArray[^1] = newTopping;
         PizzaTopping = newToppingArray;
         AddPrice(newTopping);
     }
 
     public void RemoveTopping(Topping undesiredTopping)
     {
-        int undesiredToppingIndex = Array.IndexOf(PizzaTopping, undesiredTopping);
-        if (undesiredToppingIndex == -1)
+        int newArrayLength = PizzaTopping.Length - 1;
+        Topping[] newToppingArray = new Topping[newArrayLength];
+        int toppingIndexLocation = Array.IndexOf(PizzaTopping, undesiredTopping);
+        if (toppingIndexLocation == -1)
         {
-            // TODO: Make this into a new type of exception.
-            Console.WriteLine("Could not find the PizzaTopping to be removed!");
+            throw new Exception("The undesired topping was not found on the pizza.");
         }
         else
         {
-            int newArrayLength = PizzaTopping.Length - 1;
-            Topping[] newToppingArray = new Topping[newArrayLength];
             for (int i = 0; i < newArrayLength; i++)
             {
-                if (i == undesiredToppingIndex)
+                if (i >= toppingIndexLocation)
                 {
-                    i--;
-                    continue;
+                    newToppingArray[i] = PizzaTopping[i + 1];
                 }
-                newToppingArray[i] = PizzaTopping[i];
+                else
+                {
+                    newToppingArray[i] = PizzaTopping[i];
+                }
             }
             PizzaTopping = newToppingArray;
             SubtractPrice(undesiredTopping);
@@ -100,7 +101,26 @@ public class Pizza : Item
 
     public override string ToString()
     {
-        return $"This pizza is called {Name}, it has the menu number #{MenuNumber} and its price is {Price} DKK.";
+        string[] pizzaInfo = {$"This pizza is called {Name}, ",
+                              $"it has the menu number #{MenuNumber} ",
+                              $"and its price is {Price} DKK."};
+        string finalString = "";
+        foreach (string info in pizzaInfo)
+        {
+            finalString += info;
+        }
+        if (PizzaTopping.Length == 0)
+        {
+            finalString += $"\nIt has no extra topping.";
+        }
+        else
+        {
+            foreach (Topping topping in PizzaTopping)
+            {
+                finalString += $"\nIt has extra {topping.Name} as topping.";
+            }
+        }
+        return finalString;
     }
 }
 
@@ -139,17 +159,39 @@ public class Store
         return new Pizza(randomPizza, priceOfRandom, randomNumber + 1);
     }
 
-    public void Start()
+    private Pizza[] GeneratePizzas(int pizzaAmount)
     {
-        Pizza[] myPizzas = new Pizza[3];
-        for (int i = 0; i < myPizzas.Length; i++)
+        Pizza[] myPizzas = new Pizza[pizzaAmount];
+        for (int i = 0; i < pizzaAmount; i++)
         {
             myPizzas[i] = PickRandomPizza();
         }
-        Console.WriteLine($"This pizza is called {myPizzas[0].Name}, it has the menu number #{myPizzas[0].MenuNumber} and its price is {myPizzas[0].Price} DKK.");
-        Topping myTopping = new Topping("cheese", 10);
-        Console.WriteLine($"The pizza needs extra {myTopping.Name} and it'll cost an additional {myTopping.Price} DKK.");
-        myPizzas[0].AddTopping(myTopping);
+        return myPizzas;
+    }
+
+    private void TestPizzas(Pizza[] myPizzas)
+    {
+        foreach (Pizza pizza in myPizzas)
+        {
+            Console.WriteLine(pizza.ToString());
+        }
+    }
+
+    public void Start()
+    {
+        Pizza[] myPizzas = GeneratePizzas(3);
+        string[] toppingNames = {"cheese", "pepperoni", "pineapple"};
+        foreach (string toppingName in toppingNames)
+        {
+            myPizzas[0].AddTopping(new Topping(toppingName, 10));
+        }
+        TestPizzas(myPizzas);
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[0]}");
+        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[0]);
+        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}");
+        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
+        Console.WriteLine("\n(BEFORE AND AFTER)\n");
+        TestPizzas(myPizzas);
         // Customer[] customers;
         // Order[] orders;
     }
