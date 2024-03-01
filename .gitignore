@@ -1,3 +1,4 @@
-/bin
+bin/**
+obj/**
 /build exe.ps1
 /C# project generation.ps1

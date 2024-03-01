@@ -52,14 +52,10 @@ public class Pizza : Item
     public int MenuNumber {get; set;}
     public Topping[] PizzaTopping {get; set;}
 
-    public Pizza(string name, int price) : base(name, price)
-    {
-        PizzaTopping = Array.Empty<Topping>();
-    }
-
-    public Pizza(string name, int price, int menuNumber) : this(name, price)
+    public Pizza(string name, int price, int menuNumber) : base(name, price)
     {
         MenuNumber = menuNumber;
+        PizzaTopping = Array.Empty<Topping>();
     }
 
     public void AddTopping(Topping newTopping)
@@ -151,7 +147,7 @@ public class Basket
         CalculateTotalPrice();
     }
 
-    public void CalculateTotalPrice()
+    private void CalculateTotalPrice()
     {
         if (Items.Length == 0)
         {
@@ -173,6 +169,9 @@ public class Basket
         Item[] newItems = new Item[Items.Length + 1];
         Items.CopyTo(newItems, 0);
         newItems[^1] = item;
+        Items = newItems;
+        ItemQuantity = newItems.Length;
+        CalculateTotalPrice();
     }
 
     public void RemoveItem(Item item)
@@ -198,6 +197,26 @@ public class Basket
                 }
             }
             Items = newItemArray;
+            ItemQuantity = newItemArray.Length;
+            CalculateTotalPrice();
+        }
+    }
+
+    public override string ToString()
+    {
+        if (Items.Length == 0)
+        {
+            return "This basket contains no items.";
+        }
+        else
+        {
+            string finalString = $"This basket contains {ItemQuantity} items:";
+            foreach (Item item in Items)
+            {
+                finalString += "\n" + item.Name + $" - {item.Price} DKK.";
+            }
+            finalString += $"\n\nSumming up to a total price of {TotalPrice} DKK.";
+            return finalString;
         }
     }
 }
@@ -226,7 +245,7 @@ public class Store
         return pizzaNames;
     }
 
-    public Pizza PickRandomPizza()
+    private Pizza PickRandomPizza()
     {
         string[] pizzaNames = GetAllPizzaNames();
         int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
@@ -247,11 +266,11 @@ public class Store
         return myPizzas;
     }
 
-    private void TestPizzas(Pizza[] myPizzas)
+    private void WriteItemsInfo(Item[] myItems)
     {
-        foreach (Pizza pizza in myPizzas)
+        foreach (Item item in myItems)
         {
-            Console.WriteLine(pizza.ToString());
+            Console.WriteLine(item);
         }
     }
 
@@ -263,13 +282,11 @@ public class Store
         {
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
-        TestPizzas(myPizzas);
-        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[0]}");
-        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[0]);
-        Console.WriteLine($"\nRemoving {myPizzas[0].PizzaTopping[1]}");
-        myPizzas[0].RemoveTopping(myPizzas[0].PizzaTopping[1]);
-        Console.WriteLine("\n(BEFORE AND AFTER)\n");
-        TestPizzas(myPizzas);
+        Basket myBasket = new Basket(myPizzas);
+        Console.WriteLine(myBasket);
+        myBasket.AddItem(new Pizza("testPizza", 50, 0));
+        Console.WriteLine(myBasket);
+        WriteItemsInfo(myBasket.Items);
         // Customer[] customers;
         // Order[] orders;
     }
