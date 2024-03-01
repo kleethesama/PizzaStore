@@ -208,6 +208,54 @@ public class Basket
 
 public class Order
 {
+    public int OrderNumber {get;}
+    public DateTime TimeOrderPlaced {get;}
+    public bool IsOrderCompleted {get; set;}
+    public Item[] Items {get;}
+    public int ItemQuantity {get;}
+    public int TotalPrice {get;}
+    // Remember customer name.
+
+    public Order(Basket customerBasket, int orderNumber)
+    {
+        OrderNumber = orderNumber;
+        TimeOrderPlaced = DateTime.Now;
+        IsOrderCompleted = false;
+        Items = customerBasket.Items;
+        TotalPrice = customerBasket.TotalPrice;
+    }
+
+    public int GetMinutesSinceOrderPlaced()
+    {
+        DateTime currentTime = DateTime.Now;
+        TimeSpan timeDifference = currentTime - TimeOrderPlaced;
+        return timeDifference.Minutes;
+    }
+
+    public void CompleteOrder()
+    {
+        IsOrderCompleted = true;
+    }
+
+    // Maybe unnecessary...
+    static void WriteItemsInfo(Item[] items)
+    {
+        foreach (Item item in items)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
+    public override string ToString()
+    {
+        // Remember customer name.
+        string finalString = $"This order was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
+        foreach (Item item in Items)
+        {
+            finalString += $"\n{item.Name} - {item.Price} DKK.";
+        }
+        return finalString;
+    }
 }
 
 public class Store
@@ -255,14 +303,6 @@ public class Store
         return myPizzas;
     }
 
-    private void WriteItemsInfo(Item[] myItems)
-    {
-        foreach (Item item in myItems)
-        {
-            Console.WriteLine(item);
-        }
-    }
-
     public void Start()
     {
         Pizza[] myPizzas = GeneratePizzas(3);
@@ -271,7 +311,6 @@ public class Store
         {
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
-        WriteItemsInfo(myPizzas);
         // Customer[] customers;
     }
 }
