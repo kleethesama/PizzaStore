@@ -136,14 +136,14 @@ public class Basket
     {
         Items = Array.Empty<Item>();
         TotalPrice = 0;
-        // ItemQuantity = 0;
+        ItemQuantity = 0;
     }
 
     public Basket(Item[] items)
     {
         Items = items;
         TotalPrice = 0;
-        // ItemQuantity = Items.Length;
+        ItemQuantity = Items.Length;
         CalculateTotalPrice();
     }
 
@@ -170,6 +170,7 @@ public class Basket
         Items.CopyTo(newItems, 0);
         newItems[^1] = item;
         Items = newItems;
+        ItemQuantity = newItems.Length;
         CalculateTotalPrice();
     }
 
@@ -196,6 +197,7 @@ public class Basket
                 }
             }
             Items = newItemArray;
+            ItemQuantity = newItemArray.Length;
             CalculateTotalPrice();
         }
     }
@@ -208,7 +210,7 @@ public class Basket
         }
         else
         {
-            string finalString = "This basket contains the following items:";
+            string finalString = $"This basket contains {ItemQuantity} items:";
             foreach (Item item in Items)
             {
                 finalString += "\n" + item.Name + $" - {item.Price} DKK.";
