@@ -9,24 +9,9 @@
         Price = price;
     }
 
-    protected void AddPrice(Item item)
-    {
-        Price += item.Price;
-    }
-
     protected void AddPrice(int price)
     {
         Price += price;
-    }
-
-    protected void SubtractPrice(Item item)
-    {
-        Price -= item.Price;
-    }
-
-    protected void SubtractPrice(int price)
-    {
-        Price -= price;
     }
 
     public override string ToString()
@@ -65,7 +50,7 @@ public class Pizza : Item
         PizzaTopping.CopyTo(newToppingArray, 0);
         newToppingArray[^1] = newTopping;
         PizzaTopping = newToppingArray;
-        AddPrice(newTopping);
+        AddPrice(newTopping.Price);
     }
 
     public void RemoveTopping(Topping undesiredTopping)
@@ -91,7 +76,7 @@ public class Pizza : Item
                 }
             }
             PizzaTopping = newToppingArray;
-            SubtractPrice(undesiredTopping);
+            AddPrice(-undesiredTopping.Price);
         }
     }
 
@@ -286,6 +271,7 @@ public class Store
         {
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
+        WriteItemsInfo(myPizzas);
         // Customer[] customers;
     }
 }
