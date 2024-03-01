@@ -221,6 +221,10 @@ public class Basket
     }
 }
 
+public class Order
+{
+}
+
 public class Store
 {
     public string Name {get; set;}
@@ -282,13 +286,7 @@ public class Store
         {
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
-        Basket myBasket = new Basket(myPizzas);
-        Console.WriteLine(myBasket);
-        myBasket.AddItem(new Pizza("testPizza", 50, 0));
-        Console.WriteLine(myBasket);
-        WriteItemsInfo(myBasket.Items);
         // Customer[] customers;
-        // Order[] orders;
     }
 }
 
@@ -312,5 +310,7 @@ class Program
                                98, 95, 65};
         Store BigMamma = new Store("Big Mamma", pizzaNames, pizzaPrices);
         BigMamma.Start();
+        var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
+        Console.WriteLine(fiveMinutesAgo);
     }
 }
