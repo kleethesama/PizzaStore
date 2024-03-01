@@ -232,10 +232,11 @@ public class Order
         return timeDifference.Minutes;
     }
 
-    public void CompleteOrder()
-    {
-        IsOrderCompleted = true;
-    }
+    // This method would be more fitting in an OrderManager.
+    // public void CompleteOrder()
+    // {
+    //     IsOrderCompleted = true;
+    // }
 
     // Maybe unnecessary...
     static void WriteItemsInfo(Item[] items)
