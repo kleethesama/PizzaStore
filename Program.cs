@@ -105,11 +105,23 @@ public class Pizza : Item
     }
 }
 
-// public class Customer
-// {
-//     public string CustomerName {get; set;}
-//     public Basket basket {get; set;}
-// }
+public class Customer
+{
+    public string CustomerName {get;}
+    public Basket CustomerBasket {get; set;}
+
+    public Customer(string customerName)
+    {
+        CustomerName = customerName;
+        CustomerBasket = new Basket();
+    }
+
+    public override string ToString()
+    {
+        string finalString = $"Customer {CustomerName} has a basket. ";
+        return finalString + CustomerBasket.ToString();
+    }
+}
 
 public class Basket
 {
@@ -189,7 +201,7 @@ public class Basket
 
     public override string ToString()
     {
-        if (Items.Length == 0)
+        if (ItemQuantity == 0)
         {
             return "This basket contains no items.";
         }
@@ -216,15 +228,15 @@ public class Order
     public int ItemQuantity {get;}
     public int TotalPrice {get;}
 
-    public Order(Basket customerBasket, string customerName, int orderNumber)
+    public Order(Customer customer, int orderNumber)
     {
         OrderNumber = orderNumber;
-        CustomerName = customerName; // Test after Customer class has been implemented.
+        CustomerName = customer.CustomerName; // Test after Customer class has been implemented.
         TimeOrderPlaced = DateTime.Now;
         IsOrderCompleted = false;
-        Items = customerBasket.Items;
-        ItemQuantity = customerBasket.ItemQuantity;
-        TotalPrice = customerBasket.TotalPrice;
+        Items = customer.CustomerBasket.Items;
+        ItemQuantity = customer.CustomerBasket.ItemQuantity;
+        TotalPrice = customer.CustomerBasket.TotalPrice;
     }
 
     public int GetMinutesSinceOrderPlaced()
