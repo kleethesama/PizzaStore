@@ -209,19 +209,21 @@ public class Basket
 public class Order
 {
     public int OrderNumber {get;}
+    public string CustomerName {get;}
     public DateTime TimeOrderPlaced {get;}
     public bool IsOrderCompleted {get; set;}
     public Item[] Items {get;}
     public int ItemQuantity {get;}
     public int TotalPrice {get;}
-    // Remember customer name.
 
-    public Order(Basket customerBasket, int orderNumber)
+    public Order(Basket customerBasket, string customerName, int orderNumber)
     {
         OrderNumber = orderNumber;
+        CustomerName = customerName; // Test after Customer class has been implemented.
         TimeOrderPlaced = DateTime.Now;
         IsOrderCompleted = false;
         Items = customerBasket.Items;
+        ItemQuantity = customerBasket.ItemQuantity;
         TotalPrice = customerBasket.TotalPrice;
     }
 
@@ -238,22 +240,20 @@ public class Order
     //     IsOrderCompleted = true;
     // }
 
-    // Maybe unnecessary...
-    static void WriteItemsInfo(Item[] items)
-    {
-        foreach (Item item in items)
-        {
-            Console.WriteLine(item);
-        }
-    }
-
     public override string ToString()
     {
-        // Remember customer name.
         string finalString = $"This order was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
         foreach (Item item in Items)
         {
-            finalString += $"\n{item.Name} - {item.Price} DKK.";
+            if (item.GetType() == typeof(Pizza))
+            {
+                Pizza currentItem = (Pizza) item;
+                finalString += $"\n#{currentItem.MenuNumber} {currentItem.Name} - {currentItem.Price} DKK.";
+            }
+            else
+            {
+                finalString += $"\n{item.Name} - {item.Price} DKK.";
+            }
         }
         return finalString;
     }
@@ -275,7 +275,7 @@ public class Store
         PizzasAndPrices = pizzasDict;
     }
 
-    public string[] GetAllPizzaNames()
+    private string[] GetAllPizzaNames()
     {
         int pizzaTypeAmount = PizzasAndPrices.Keys.Count;
         string[] pizzaNames = new string[pizzaTypeAmount];
@@ -304,6 +304,14 @@ public class Store
         return myPizzas;
     }
 
+    static void WriteItemsInfo(Item[] items)
+    {
+        foreach (Item item in items)
+        {
+            Console.WriteLine(item);
+        }
+    }
+
     public void Start()
     {
         Pizza[] myPizzas = GeneratePizzas(3);
@@ -312,6 +320,12 @@ public class Store
         {
             myPizzas[0].AddTopping(new Topping(toppingName, 10));
         }
+        Basket myBasket = new Basket(myPizzas);
+        myBasket.AddItem(new Item("Cola", 20));
+        myBasket.AddItem(new Item("Fanta", 25));
+        // Console.WriteLine(myBasket);
+        // Order myOrder = new Order(myBasket, "Jens", 0);
+        // Console.WriteLine(myOrder);
         // Customer[] customers;
     }
 }
@@ -336,7 +350,5 @@ class Program
                                98, 95, 65};
         Store BigMamma = new Store("Big Mamma", pizzaNames, pizzaPrices);
         BigMamma.Start();
-        var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
-        Console.WriteLine(fiveMinutesAgo);
     }
 }
