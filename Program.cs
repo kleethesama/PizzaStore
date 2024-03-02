@@ -210,12 +210,11 @@ public class Order
 {
     public int OrderNumber {get;}
     public string CustomerName {get;}
-    public DateTime TimeOrderPlaced {get; set;} // Remove set;
+    public DateTime TimeOrderPlaced {get;}
     public bool IsOrderCompleted {get; set;}
     public Item[] Items {get;}
     public int ItemQuantity {get;}
     public int TotalPrice {get;}
-    // Remember customer name.
 
     public Order(Basket customerBasket, string customerName, int orderNumber)
     {
@@ -243,7 +242,6 @@ public class Order
 
     public override string ToString()
     {
-        // Remember customer name.
         string finalString = $"This order was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
         foreach (Item item in Items)
         {
@@ -326,11 +324,8 @@ public class Store
         myBasket.AddItem(new Item("Cola", 20));
         myBasket.AddItem(new Item("Fanta", 25));
         // Console.WriteLine(myBasket);
-        // WriteItemsInfo(myBasket.Items);
-        Order myOrder = new Order(myBasket, "Jens", 0);
-        var fiveMinutesAgo = DateTime.Now.AddMinutes(-5);
-        myOrder.TimeOrderPlaced = fiveMinutesAgo;
-        Console.WriteLine(myOrder);
+        // Order myOrder = new Order(myBasket, "Jens", 0);
+        // Console.WriteLine(myOrder);
         // Customer[] customers;
     }
 }
