@@ -1,15 +1,15 @@
 ﻿public class Item
 {
     public string Name {get; set;}
-    public int Price {get; set;}
+    public decimal Price {get; set;}
 
-    public Item(string name, int price)
+    public Item(string name, decimal price)
     {
         Name = name;
         Price = price;
     }
 
-    protected void AddPrice(int price)
+    protected void AddPrice(decimal price)
     {
         Price += price;
     }
@@ -22,13 +22,13 @@
 
 public class Topping : Item
 {
-    public Topping(string name, int price) : base(name, price)
+    public Topping(string name, decimal price) : base(name, price)
     {
     }
 
     public override string ToString()
     {
-        return $"This topping is {Name} and its additional cost is {Price}.";
+        return $"Topping is {Name} and its additional cost is {Price}.";
     }
 }
 
@@ -37,7 +37,7 @@ public class Pizza : Item
     public int MenuNumber {get; set;}
     public Topping[] PizzaTopping {get; set;}
 
-    public Pizza(string name, int price, int menuNumber) : base(name, price)
+    public Pizza(string name, decimal price, int menuNumber) : base(name, price)
     {
         MenuNumber = menuNumber;
         PizzaTopping = Array.Empty<Topping>();
@@ -55,8 +55,6 @@ public class Pizza : Item
 
     public void RemoveTopping(Topping undesiredTopping)
     {
-        int newArrayLength = PizzaTopping.Length - 1;
-        Topping[] newToppingArray = new Topping[newArrayLength];
         int toppingIndexLocation = Array.IndexOf(PizzaTopping, undesiredTopping);
         if (toppingIndexLocation == -1)
         {
@@ -64,6 +62,8 @@ public class Pizza : Item
         }
         else
         {
+            int newArrayLength = PizzaTopping.Length - 1;
+            Topping[] newToppingArray = new Topping[newArrayLength];
             for (int i = 0; i < newArrayLength; i++)
             {
                 if (i >= toppingIndexLocation)
@@ -116,17 +116,28 @@ public class Customer
         CustomerBasket = new Basket();
     }
 
+    /*
+    The logic here is that the system doesn't necessarily know who the customer
+    is before they have placed their order. In the pizzeria itself, they don't
+    ask the customer for their name either. So it's only required to know the
+    customer's name when the order itself has been placed.
+    */
+    public Customer(string customerName, Basket customerBasket)
+    {
+        CustomerName = customerName;
+        CustomerBasket = customerBasket;
+    }
+
     public override string ToString()
     {
-        string finalString = $"Customer {CustomerName} has a basket. ";
-        return finalString + CustomerBasket.ToString();
+        return $"Customer {CustomerName} has a basket. " + CustomerBasket.ToString();
     }
 }
 
 public class Basket
 {
     public Item[] Items {get; set;}
-    public int TotalPrice {get; set;}
+    public decimal TotalPrice {get; set;}
     public int ItemQuantity {get; set;}
 
     public Basket()
@@ -144,6 +155,12 @@ public class Basket
         CalculateTotalPrice();
     }
 
+    private decimal CalculateTaxOfItems(decimal price)
+    {
+        decimal danishVAT = 0.25M; // Should this somehow be a global variabel?
+        return price * danishVAT;
+    }
+
     private void CalculateTotalPrice()
     {
         if (Items.Length == 0)
@@ -152,7 +169,7 @@ public class Basket
         }
         else
         {
-            int newTotalPrice = 0;
+            decimal newTotalPrice = 0;
             foreach (Item item in Items)
             {
                 newTotalPrice += item.Price;
@@ -173,8 +190,6 @@ public class Basket
 
     public void RemoveItem(Item item)
     {
-        int newArrayLength = Items.Length - 1;
-        Item[] newItemArray = new Item[newArrayLength];
         int itemIndexLocation = Array.IndexOf(Items, item);
         if (itemIndexLocation == -1)
         {
@@ -182,6 +197,8 @@ public class Basket
         }
         else
         {
+            int newArrayLength = Items.Length - 1;
+            Item[] newItemArray = new Item[newArrayLength];
             for (int i = 0; i < newArrayLength; i++)
             {
                 if (i >= itemIndexLocation)
@@ -212,7 +229,8 @@ public class Basket
             {
                 finalString += "\n" + item.Name + $" - {item.Price} DKK.";
             }
-            finalString += $"\n\nSumming up to a total price of {TotalPrice} DKK.";
+            finalString += $"\n\nSubtotal: {TotalPrice} DKK.";
+            finalString += $"\nVAT 25%: {CalculateTaxOfItems(TotalPrice)} DKK.";
             return finalString;
         }
     }
@@ -226,12 +244,12 @@ public class Order
     public bool IsOrderCompleted {get; set;}
     public Item[] Items {get;}
     public int ItemQuantity {get;}
-    public int TotalPrice {get;}
+    public decimal TotalPrice {get;}
 
     public Order(Customer customer, int orderNumber)
     {
         OrderNumber = orderNumber;
-        CustomerName = customer.CustomerName; // Test after Customer class has been implemented.
+        CustomerName = customer.CustomerName;
         TimeOrderPlaced = DateTime.Now;
         IsOrderCompleted = false;
         Items = customer.CustomerBasket.Items;
@@ -274,12 +292,12 @@ public class Order
 public class Store
 {
     public string Name {get; set;}
-    public Dictionary<string, int> PizzasAndPrices {get; set;}
+    public Dictionary<string, decimal> PizzasAndPrices {get; set;}
 
-    public Store(string name, string[] pizzaNames, int[] pizzaPrices)
+    public Store(string name, string[] pizzaNames, decimal[] pizzaPrices)
     {
         Name = name;
-        Dictionary<string, int> pizzasDict = new Dictionary<string, int>();
+        Dictionary<string, decimal> pizzasDict = new Dictionary<string, decimal>();
         for (int i = 0; i < pizzaNames.Length; i++)
         {
             pizzasDict.Add(pizzaNames[i], pizzaPrices[i]);
@@ -302,7 +320,7 @@ public class Store
         Random randomizer = new Random();
         int randomNumber = randomizer.Next(0, pizzaTypeAmount);
         string randomPizza = pizzaNames[randomNumber];
-        int priceOfRandom = PizzasAndPrices[randomPizza];
+        decimal priceOfRandom = PizzasAndPrices[randomPizza];
         return new Pizza(randomPizza, priceOfRandom, randomNumber + 1);
     }
 
@@ -336,6 +354,9 @@ public class Store
         myBasket.AddItem(new Item("Cola", 20));
         myBasket.AddItem(new Item("Fanta", 25));
         // Console.WriteLine(myBasket);
+        Customer customerJens = new Customer("Jens");
+        customerJens.CustomerBasket = myBasket;
+        Console.WriteLine(customerJens);
         // Order myOrder = new Order(myBasket, "Jens", 0);
         // Console.WriteLine(myOrder);
         // Customer[] customers;
@@ -360,7 +381,12 @@ class Program
                                98, 98, 99, 98,
                                99, 99, 99, 99,
                                98, 95, 65};
-        Store BigMamma = new Store("Big Mamma", pizzaNames, pizzaPrices);
+        decimal[] decimalPizzaPrices = new decimal[pizzaPrices.Length];
+        for (int i = 0; i < pizzaPrices.Length; i++)
+        {
+            decimalPizzaPrices[i] = (decimal) pizzaPrices[i];
+        }
+        Store BigMamma = new Store("Big Mamma", pizzaNames, decimalPizzaPrices);
         BigMamma.Start();
     }
 }
