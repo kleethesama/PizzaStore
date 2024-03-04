@@ -1,4 +1,10 @@
-﻿public class Item
+﻿static class ConstantCosts
+{
+    public static decimal danishVAT = 0.25M;
+    public static decimal DeliveryCost = 40M;
+}
+
+public class Item
 {
     public string Name {get; set;}
     public decimal Price {get; set;}
@@ -218,7 +224,11 @@ public class Basket
         }
         else
         {
-            string finalString = $"This basket contains {ItemQuantity} items:";
+            string finalString = $"This basket contains {ItemQuantity} item:";
+            if (ItemQuantity > 1)
+            {
+                finalString = $"This basket contains {ItemQuantity} items:";
+            }
             foreach (Item item in Items)
             {
                 finalString += "\n" + item.Name + $" - {item.Price} DKK.";
@@ -242,7 +252,7 @@ public class Order
         Customer = customer;
         TimeOrderPlaced = DateTime.Now;
         IsOrderCompleted = false;
-        TotalPrice = Customer.CustomerBasket.TotalPrice;
+        TotalPrice = CalculateTotalPrice();
     }
 
     public int GetMinutesSinceOrderPlaced()
@@ -254,19 +264,14 @@ public class Order
 
     private decimal CalculateTaxOfItems(decimal price)
     {
-        decimal danishVAT = 0.25M; // Should this somehow be a global variabel?
-        return price * danishVAT;
+        return price * ConstantCosts.danishVAT;
     }
 
-    public string CalculateTotalPrice()
+    public decimal CalculateTotalPrice()
     {
-        decimal newTotalPrice = TotalPrice;
-        decimal deliveryCost = 40M;
-        newTotalPrice += deliveryCost;
-        TotalPrice = newTotalPrice;
-        string totalPrice = $"\n\nSubtotal: {TotalPrice} DKK.";
-        totalPrice += $"\nVAT 25%: {CalculateTaxOfItems(Customer.CustomerBasket.TotalPrice)} DKK.";
-        return totalPrice;
+        decimal newTotalPrice = Customer.CustomerBasket.TotalPrice;
+        newTotalPrice += ConstantCosts.DeliveryCost;
+        return newTotalPrice;
     }
 
     public override string ToString()
@@ -284,7 +289,9 @@ public class Order
                 finalString += $"\n{item.Name} - {item.Price} DKK.";
             }
         }
-        finalString += CalculateTotalPrice();
+        finalString += $"\n\nSubtotal: {TotalPrice} DKK.";
+        finalString += $"\nVAT 25%: {CalculateTaxOfItems(Customer.CustomerBasket.TotalPrice)} DKK.";
+        finalString += $"\nDelivery: {40M} DKK.";
         if (IsOrderCompleted)
         {
             finalString += $"\n\nOrder status: Completed";
@@ -352,21 +359,38 @@ public class Store
 
     public void Start()
     {
-        Pizza[] myPizzas = GeneratePizzas(3);
+        Customer[] myCustomers = new Customer[3];
         string[] toppingNames = {"cheese", "pepperoni", "pineapple"};
+        string[] customerNames = {"Jens", "Katrine", "Frederik"};
+
+        for (int i = 0; i < myCustomers.Length; i++)
+        {
+            myCustomers[i] = new Customer(customerNames[i]);
+        }
+        foreach (Customer customer in myCustomers)
+        {
+            customer.CustomerBasket = new Basket(GeneratePizzas(1));
+        }
+        Pizza fredePizza = (Pizza) myCustomers[2].CustomerBasket.Items[0];
         foreach (string toppingName in toppingNames)
         {
-            myPizzas[0].AddTopping(new Topping(toppingName, 10));
+            fredePizza.AddTopping(new Topping(toppingName, 10));
         }
-        Basket myBasket = new Basket(myPizzas);
-        myBasket.AddItem(new Item("Cola", 20));
-        myBasket.AddItem(new Item("Fanta", 25));
-        // Console.WriteLine(myBasket);
-        Customer customerJens = new Customer("Jens");
-        customerJens.CustomerBasket = myBasket;
-        // Console.WriteLine(customerJens);
-        Order myOrder = new Order(customerJens, 0);
-        Console.WriteLine(myOrder);
+
+        myCustomers[2].CustomerBasket.Items[0] = fredePizza;
+        myCustomers[2].CustomerBasket.AddItem(new Item("Cola", 20));
+        myCustomers[2].CustomerBasket.AddItem(new Item("Fanta", 25));
+        foreach (Customer customer in myCustomers)
+        {
+            Console.WriteLine("\n" + customer);
+        }
+
+        Order[] myOrders = new Order[myCustomers.Length];
+        for (int i = 0; i < myOrders.Length; i++)
+        {
+            myOrders[i] = new Order(myCustomers[i], i + 1);
+            Console.WriteLine("\n" + myOrders[i]);
+        }
     }
 }
 
