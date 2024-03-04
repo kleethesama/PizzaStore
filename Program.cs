@@ -1,5 +1,10 @@
 ﻿static class ConstantCosts
 {
+    /*
+    The 'decimal' floating-point type is apparently the best for financial calculations
+    where floating-point errors must not occur.
+    Source: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types
+    */
     public static decimal danishVAT = 0.25M;
     public static decimal DeliveryCost = 40M;
 }
