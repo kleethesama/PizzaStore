@@ -152,16 +152,10 @@ public class Basket
         Items = items;
         TotalPrice = 0;
         ItemQuantity = Items.Length;
-        CalculateTotalPrice();
+        GetTotalPrice();
     }
 
-    private decimal CalculateTaxOfItems(decimal price)
-    {
-        decimal danishVAT = 0.25M; // Should this somehow be a global variabel?
-        return price * danishVAT;
-    }
-
-    private void CalculateTotalPrice()
+    private void GetTotalPrice()
     {
         if (Items.Length == 0)
         {
@@ -185,7 +179,7 @@ public class Basket
         newItems[^1] = item;
         Items = newItems;
         ItemQuantity = newItems.Length;
-        CalculateTotalPrice();
+        GetTotalPrice();
     }
 
     public void RemoveItem(Item item)
@@ -212,7 +206,7 @@ public class Basket
             }
             Items = newItemArray;
             ItemQuantity = newItemArray.Length;
-            CalculateTotalPrice();
+            GetTotalPrice();
         }
     }
 
@@ -229,8 +223,6 @@ public class Basket
             {
                 finalString += "\n" + item.Name + $" - {item.Price} DKK.";
             }
-            finalString += $"\n\nSubtotal: {TotalPrice} DKK.";
-            finalString += $"\nVAT 25%: {CalculateTaxOfItems(TotalPrice)} DKK.";
             return finalString;
         }
     }
@@ -239,22 +231,18 @@ public class Basket
 public class Order
 {
     public int OrderNumber {get;}
-    public string CustomerName {get;}
+    public Customer Customer {get;}
     public DateTime TimeOrderPlaced {get;}
     public bool IsOrderCompleted {get; set;}
-    public Item[] Items {get;}
-    public int ItemQuantity {get;}
-    public decimal TotalPrice {get;}
+    public decimal TotalPrice {get; set;}
 
     public Order(Customer customer, int orderNumber)
     {
         OrderNumber = orderNumber;
-        CustomerName = customer.CustomerName;
+        Customer = customer;
         TimeOrderPlaced = DateTime.Now;
         IsOrderCompleted = false;
-        Items = customer.CustomerBasket.Items;
-        ItemQuantity = customer.CustomerBasket.ItemQuantity;
-        TotalPrice = customer.CustomerBasket.TotalPrice;
+        TotalPrice = Customer.CustomerBasket.TotalPrice;
     }
 
     public int GetMinutesSinceOrderPlaced()
@@ -264,16 +252,27 @@ public class Order
         return timeDifference.Minutes;
     }
 
-    // This method would be more fitting in an OrderManager.
-    // public void CompleteOrder()
-    // {
-    //     IsOrderCompleted = true;
-    // }
+    private decimal CalculateTaxOfItems(decimal price)
+    {
+        decimal danishVAT = 0.25M; // Should this somehow be a global variabel?
+        return price * danishVAT;
+    }
+
+    public string CalculateTotalPrice()
+    {
+        decimal newTotalPrice = TotalPrice;
+        decimal deliveryCost = 40M;
+        newTotalPrice += deliveryCost;
+        TotalPrice = newTotalPrice;
+        string totalPrice = $"\n\nSubtotal: {TotalPrice} DKK.";
+        totalPrice += $"\nVAT 25%: {CalculateTaxOfItems(Customer.CustomerBasket.TotalPrice)} DKK.";
+        return totalPrice;
+    }
 
     public override string ToString()
     {
         string finalString = $"This order was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
-        foreach (Item item in Items)
+        foreach (Item item in Customer.CustomerBasket.Items)
         {
             if (item.GetType() == typeof(Pizza))
             {
@@ -284,6 +283,15 @@ public class Order
             {
                 finalString += $"\n{item.Name} - {item.Price} DKK.";
             }
+        }
+        finalString += CalculateTotalPrice();
+        if (IsOrderCompleted)
+        {
+            finalString += $"\n\nOrder status: Completed";
+        }
+        else
+        {
+            finalString += $"\n\nOrder status: In Progress";
         }
         return finalString;
     }
@@ -356,10 +364,9 @@ public class Store
         // Console.WriteLine(myBasket);
         Customer customerJens = new Customer("Jens");
         customerJens.CustomerBasket = myBasket;
-        Console.WriteLine(customerJens);
-        // Order myOrder = new Order(myBasket, "Jens", 0);
-        // Console.WriteLine(myOrder);
-        // Customer[] customers;
+        // Console.WriteLine(customerJens);
+        Order myOrder = new Order(customerJens, 0);
+        Console.WriteLine(myOrder);
     }
 }
 
