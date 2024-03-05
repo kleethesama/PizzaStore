@@ -170,7 +170,7 @@ public class Basket
     {
         if (Items.Length == 0)
         {
-            throw new Exception("Can't calculate total price since this basket is empty.");
+            TotalPrice = 0;
         }
         else
         {
@@ -281,7 +281,8 @@ public class Order
 
     public override string ToString()
     {
-        string finalString = $"This order was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
+        string finalString = $"\nCustomer name: {Customer.CustomerName}";
+        finalString += $"\nOrder was placed {GetMinutesSinceOrderPlaced()} minutes ago:";
         foreach (Item item in Customer.CustomerBasket.Items)
         {
             if (item.GetType() == typeof(Pizza))
@@ -296,7 +297,7 @@ public class Order
         }
         finalString += $"\n\nSubtotal: {TotalPrice} DKK.";
         finalString += $"\nVAT 25%: {CalculateTaxOfItems(Customer.CustomerBasket.TotalPrice)} DKK.";
-        finalString += $"\nDelivery: {40M} DKK.";
+        finalString += $"\nDelivery: {ConstantCosts.DeliveryCost} DKK.";
         if (IsOrderCompleted)
         {
             finalString += $"\n\nOrder status: Completed";
@@ -385,6 +386,7 @@ public class Store
         myCustomers[2].CustomerBasket.Items[0] = fredePizza;
         myCustomers[2].CustomerBasket.AddItem(new Item("Cola", 20));
         myCustomers[2].CustomerBasket.AddItem(new Item("Fanta", 25));
+        myCustomers[1].CustomerBasket.RemoveItem(myCustomers[1].CustomerBasket.Items[0]);
         foreach (Customer customer in myCustomers)
         {
             Console.WriteLine("\n" + customer);
@@ -396,6 +398,7 @@ public class Store
             myOrders[i] = new Order(myCustomers[i], i + 1);
             Console.WriteLine("\n" + myOrders[i]);
         }
+        myOrders[0].TimeOrderPlaced.AddMinutes(-5);
     }
 }
 
